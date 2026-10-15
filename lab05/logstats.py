@@ -1,5 +1,6 @@
 def parse_event(line):
-    parts=line.split(None,2)
+    clean_line = line.strip()
+    parts = clean_line.split(None, 2)
     if len(parts)<3:
         raise ValueError("Неверный формат строки: слишком мало данных")
     valid_levels = {"DEBUG","ERROR", "INFO", "WARNING"}
@@ -11,7 +12,7 @@ def parse_event(line):
 
 
 def count_levels(lines):
-    counts = {"BROKEN": 0}
+    counts = {}
     for line in lines:
         if not line.strip():
             continue

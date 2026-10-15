@@ -6,10 +6,11 @@ with open(path, encoding="utf-8") as log:
     log.seek(0)
     errors = top_errors(log, n=3)
 
-broken_count = counts["BROKEN"]
-error_count = counts["ERROR"]
-total_parsed = counts["DEBUG"] + counts["INFO"] + counts["WARNING"] + counts["ERROR"] +counts["BROKEN"]
+broken_count = counts.get("BROKEN", 0)
+error_count = counts.get("ERROR", 0)
 
+
+total_parsed = counts.get("DEBUG", 0) +counts.get("INFO", 0) +counts.get("WARNING", 0) +counts.get("ERROR", 0)
 print(total_parsed)
 print(error_count)
 print(broken_count)
