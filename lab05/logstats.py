@@ -26,3 +26,27 @@ def count_levels(lines):
         except ValueError:
             counts["BROKEN"] += 1
     return counts
+
+def top_errors(lines, n):
+    error_counts = {}
+    for line in lines:
+        if not line.strip(): continue
+        try:
+            event = parse_event(line)
+            if event["level"] == "ERROR":
+                msg = event["message"]
+                error_counts[msg] = error_counts.get(msg, 0) + 1
+        except ValueError:
+            pass
+    error_items=sorted(error_counts.items(), key=lambda x: (-x[1], x[0]))
+    return error_items[:n]
+
+def format_report(counts, errors):
+    report ="Отчёт по журналу\n\n"
+    sorted_keys=sorted(counts.keys())
+    for key in sorted_keys:
+        report += f"{key}: {counts[key]}\n"
+    report += "\nЧастые ошибки::\n"
+    for msg, count in errors:
+        report += f"- {msg} - {count}\n"
+    return report.strip()
