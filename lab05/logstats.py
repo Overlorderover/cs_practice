@@ -20,7 +20,7 @@ def count_levels(lines):
             level = event["level"]
             counts[level] = counts.get(level, 0) + 1
         except ValueError:
-            counts["BROKEN"] += 1
+            counts["BROKEN"] = counts.get("BROKEN", 0) + 1
     return counts
 
 def top_errors(lines, n):
@@ -44,5 +44,5 @@ def format_report(counts, errors):
         report += f"{key}: {counts[key]}\n"
     report += "\nЧастые ошибки:\n"
     for msg, count in errors:
-        report += f"- {msg} - {count}\n"
+        report += f"- {msg} — {count}\n"
     return report
