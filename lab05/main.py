@@ -10,7 +10,7 @@ broken_count = counts.get("BROKEN", 0)
 error_count = counts.get("ERROR", 0)
 
 
-total_parsed = counts.get("DEBUG", 0) +counts.get("INFO", 0) +counts.get("WARNING", 0) +counts.get("ERROR", 0)
+total_parsed = counts.get("DEBUG", 0) +counts.get("INFO", 0) +counts.get("WARNING", 0) +counts.get("ERROR", 0) + broken_count
 print(total_parsed)
 print(error_count)
 print(broken_count)
