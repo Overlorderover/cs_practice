@@ -1,28 +1,24 @@
 def parse_event(line):
-    dict=line.split(None,2)
-    if len(dict)<3:
+    parts=line.split(None,2)
+    if len(parts)<3:
         raise ValueError("Неверный формат строки: слишком мало данных")
-    valid_levels = {"DEBUG", "INFO", "WARNING", "ERROR"}
-    if dict[1] not in valid_levels:
+    valid_levels = {"DEBUG","ERROR", "INFO", "WARNING"}
+    if parts[1] not in valid_levels:
         raise ValueError("сломанная строка без уровня")
-    return {"time": dict[0],
-            "level": dict[1],
-            "message": dict[2]}
+    return {"time": parts[0],
+            "level": parts[1],
+            "message": parts[2]}
 
 
 def count_levels(lines):
-    counts = {"BROKEN": 0,
-              "DEBUG": 0,
-              "INFO": 0,
-              "WARNING": 0,
-              "ERROR": 0}
+    counts = {"BROKEN": 0}
     for line in lines:
-        if not line.strip():  # Если строка пустая или состоит только из пробелов
+        if not line.strip():
             continue
         try:
             event = parse_event(line)
             level = event["level"]
-            counts[level] += 1
+            counts[level] = counts.get(level, 0) + 1
         except ValueError:
             counts["BROKEN"] += 1
     return counts
@@ -46,7 +42,7 @@ def format_report(counts, errors):
     sorted_keys=sorted(counts.keys())
     for key in sorted_keys:
         report += f"{key}: {counts[key]}\n"
-    report += "\nЧастые ошибки::\n"
+    report += "\nЧастые ошибки:\n"
     for msg, count in errors:
         report += f"- {msg} - {count}\n"
-    return report.strip()
+    return report
