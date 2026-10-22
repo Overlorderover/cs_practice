@@ -1,4 +1,4 @@
-def count_by_extension(paths):
+def count_by_extension(paths: list[str]) -> dict[str, int]:
     result = {}
     for path in paths:
         parts = path.split('/')
@@ -12,7 +12,7 @@ def count_by_extension(paths):
         result[ext] = result.get(ext, 0) + 1
     return result
 
-def deepest_path(paths):
+def deepest_path(paths: list[str]) -> str:
     if not paths:
         return ""
 
@@ -30,7 +30,7 @@ def deepest_path(paths):
 
     return best_path
 
-def human_size(n_bytes):
+def human_size(n_bytes: int) -> str:
     units = ["Б", "КБ", "МБ", "ГБ", "ТБ"]
 
     if n_bytes < 1024:
