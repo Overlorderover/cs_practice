@@ -11,3 +11,21 @@ def count_by_extension(paths):
 
         result[ext] = result.get(ext, 0) + 1
     return result
+
+def deepest_path(paths):
+    if not paths:
+        return ""
+
+    max_slashes = -1
+    best_path = ""
+
+    for path in paths:
+        slashes = path.count('/')
+        if slashes > max_slashes:
+            max_slashes = slashes
+            best_path = path
+        elif slashes == max_slashes:
+            if path < best_path:
+                best_path = path
+
+    return best_path
