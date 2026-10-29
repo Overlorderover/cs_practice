@@ -1,19 +1,12 @@
+from csv import DictReader
 from json import dumps
-
 
 def csv_to_records(text: str) -> list[dict]:
     if not text or not text.strip():
         return []
-    lines = [line.strip() for line in text.splitlines() if line.strip()]
-    if not lines:
-        return []
-    headers = [h.strip() for h in lines[0].split(',')]
-    records = []
-    for line in lines[1:]:
-        values = [v.strip() for v in line.split(',')]
-        record = dict(zip(headers, values))
-        records.append(record)
-    return records
+    lines = text.splitlines()
+    reader = DictReader(lines)
+    return [{k.strip(): v.strip() for k, v in row.items()} for row in reader]
 
 def parse_settings(lines: list[str]) -> dict:
     result = {}
@@ -52,7 +45,7 @@ def parse_settings(lines: list[str]) -> dict:
                             result[key] = float(normalized_val)
                         except ValueError:
                             result[key] = val_str
-    return resul
+    return result
 
 def merge_by_key(rows: list[dict], extra: dict, key: str = 'id') -> list[dict]:
     merged_rows = []
