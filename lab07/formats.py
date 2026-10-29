@@ -48,10 +48,11 @@ def parse_settings(lines: list[str]) -> dict:
                         result[key] = int(val_str)
                     except ValueError:
                         try:
-                            result[key] = float(val_str.replace(',', '.'))
+                            normalized_val = val_str.replace(',', '.').strip()
+                            result[key] = float(normalized_val)
                         except ValueError:
                             result[key] = val_str
-    return result
+    return resul
 
 def merge_by_key(rows: list[dict], extra: dict, key: str = 'id') -> list[dict]:
     merged_rows = []
