@@ -1,6 +1,7 @@
 from csv import DictReader
 from json import dumps
 
+
 def csv_to_records(text: str) -> list[dict]:
     if not text or not text.strip():
         return []
@@ -8,35 +9,34 @@ def csv_to_records(text: str) -> list[dict]:
     reader = DictReader(lines)
     return [{k.strip(): v.strip() for k, v in row.items()} for row in reader]
 
-def _parse_value(val_str: str):
-    val_str = val_str.strip()
-    val_lower = val_str.lower()
-    if val_lower in ('true', 'yes'):
-        return True
-    if val_lower in ('false', 'no'):
-        return False
-    try:
-        return int(val_str)
-    except ValueError:
-        try:
-            return float(val_str.replace(',', '.'))
-        except ValueError:
-            return val_str
 
 def parse_settings(lines: list[str]) -> dict:
     result = {}
     current_list_key = None
     for line in lines:
-        if '#' in line:
-            line = line.split('#', 1)[0]
+        if ' #' in line:
+            line = line.split(' #', 1)[0]
+        elif line.strip().startswith('#'):
+            continue
         line = line.strip()
         if not line:
             continue
         if line.startswith('-'):
             val_str = line[1:].strip()
             if current_list_key is not None:
-                parsed_val = _parse_value(val_str)
-                result[current_list_key].append(parsed_val)
+                val_lower = val_str.lower()
+                if val_lower in ('true', 'yes'):
+                    result[current_list_key].append(True)
+                elif val_lower in ('false', 'no'):
+                    result[current_list_key].append(False)
+                else:
+                    try:
+                        result[current_list_key].append(int(val_str))
+                    except ValueError:
+                        try:
+                            result[current_list_key].append(float(val_str.replace(',', '.')))
+                        except ValueError:
+                            result[current_list_key].append(val_str)
             continue
         if ':' in line:
             key, val_str = line.split(':', 1)
@@ -47,7 +47,19 @@ def parse_settings(lines: list[str]) -> dict:
                 result[current_list_key] = []
             else:
                 current_list_key = None
-                result[key] = _parse_value(val_str)
+                val_lower = val_str.lower()
+                if val_lower in ('true', 'yes'):
+                    result[key] = True
+                elif val_lower in ('false', 'no'):
+                    result[key] = False
+                else:
+                    try:
+                        result[key] = int(val_str)
+                    except ValueError:
+                        try:
+                            result[key] = float(val_str.replace(',', '.'))
+                        except ValueError:
+                            result[key] = val_str
     return result
 
 def merge_by_key(rows: list[dict], extra: dict, key: str = 'id') -> list[dict]:
