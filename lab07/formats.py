@@ -8,6 +8,21 @@ def csv_to_records(text: str) -> list[dict]:
     reader = DictReader(lines)
     return [{k.strip(): v.strip() for k, v in row.items()} for row in reader]
 
+def _parse_value(val_str: str):
+    val_str = val_str.strip()
+    val_lower = val_str.lower()
+    if val_lower in ('true', 'yes'):
+        return True
+    if val_lower in ('false', 'no'):
+        return False
+    try:
+        return int(val_str)
+    except ValueError:
+        try:
+            return float(val_str.replace(',', '.'))
+        except ValueError:
+            return val_str
+
 def parse_settings(lines: list[str]) -> dict:
     result = {}
     current_list_key = None
@@ -20,7 +35,8 @@ def parse_settings(lines: list[str]) -> dict:
         if line.startswith('-'):
             val_str = line[1:].strip()
             if current_list_key is not None:
-                result[current_list_key].append(val_str)
+                parsed_val = _parse_value(val_str)
+                result[current_list_key].append(parsed_val)
             continue
         if ':' in line:
             key, val_str = line.split(':', 1)
@@ -31,20 +47,7 @@ def parse_settings(lines: list[str]) -> dict:
                 result[current_list_key] = []
             else:
                 current_list_key = None
-                val_lower = val_str.lower()
-                if val_lower in ('true', 'yes'):
-                    result[key] = True
-                elif val_lower in ('false', 'no'):
-                    result[key] = False
-                else:
-                    try:
-                        result[key] = int(val_str)
-                    except ValueError:
-                        try:
-                            clean_val = val_str.replace(',', '.').strip()
-                            result[key] = float(clean_val)
-                        except ValueError:
-                            result[key] = val_str
+                result[key] = _parse_value(val_str)
     return result
 
 def merge_by_key(rows: list[dict], extra: dict, key: str = 'id') -> list[dict]:
