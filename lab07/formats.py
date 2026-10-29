@@ -1,5 +1,3 @@
-from csv import DictReader
-from yaml import safe_load
 from json import dumps
 
 
@@ -45,7 +43,7 @@ def parse_settings(lines: list[str]) -> dict:
                     result[key] = True
                 elif val_lower in ('false', 'no'):
                     result[key] = False
-                else:)
+                else:
                     try:
                         result[key] = int(val_str)
                     except ValueError:
