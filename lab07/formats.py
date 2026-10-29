@@ -1,5 +1,6 @@
 from csv import DictReader
 from yaml import safe_load
+from json import dumps
 
 def csv_to_records(text: str) -> list[dict]:
     if not text or not text.strip():
@@ -28,3 +29,6 @@ def merge_by_key(rows: list[dict], extra: dict, key: str = 'id') -> list[dict]:
                     new_row[ex_key] = ex_val
         merged_rows.append(new_row)
     return merged_rows
+
+def records_to_json(records: list[dict]) -> str:
+    return dumps(records, sort_keys=True, indent=2, ensure_ascii=False)
