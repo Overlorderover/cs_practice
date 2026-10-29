@@ -41,8 +41,8 @@ def parse_settings(lines: list[str]) -> dict:
                         result[key] = int(val_str)
                     except ValueError:
                         try:
-                            normalized_val = val_str.replace(',', '.').strip()
-                            result[key] = float(normalized_val)
+                            clean_val = val_str.replace(',', '.').strip()
+                            result[key] = float(clean_val)
                         except ValueError:
                             result[key] = val_str
     return result
