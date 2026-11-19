@@ -73,3 +73,16 @@ changed_matrix[:, -1] = -1
 changed_matrix[1:4, 1:4] = 100
 print("Итоговая матрица:\n", changed_matrix)
 print("Исходная матрица:\n", matrix)
+
+#Задание 6
+print("\n=== Задание 6 ===")
+numbers = np.arange(0, 12)
+table = numbers.reshape(3, 4)
+transposed = table.T
+print("Форма numbers:", numbers.shape)
+print("Форма table:", table.shape)
+print("Форма transposed:", transposed.shape)
+# Метод reshape(3, 4) работает, потому что общее количество элементов совпадает:
+# 3 * 4 = 12 элементов (столько же, сколько в исходном массиве numbers).
+# Вызов reshape(5, 3) вызовет ошибку ValueError, так как 5 * 3 = 15,
+# а исходный массив содержит только 12 элементов.
