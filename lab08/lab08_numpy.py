@@ -1,6 +1,7 @@
 import numpy as np
 
 #Задание 1
+print("\n=== Задание 1 ===")
 hours = np.arange(0, 22, 3)
 line = np.linspace(0, 1, 5)
 zeros = np.zeros(6, dtype=int)
@@ -14,6 +15,7 @@ print("size:", hours.size)
 print("dtype:", hours.dtype)
 
 #Задание 2
+print("\n=== Задание 2 ===")
 print("Третий элемент:", hours[2])
 print("Последний элемент:", hours[-1])
 print("Элементы с индексами 2–5:", hours[2:6])
@@ -21,6 +23,7 @@ print("Каждый второй элемент:", hours[::2])
 print("Массив в обратном порядке:", hours[::-1])
 
 #Задание 3
+print("\n=== Задание 3 ===")
 temperatures = np.array([[12, 14, 13, 15],
                         [11, 13, 16, 17],
                         [10, 12, 15, 18],])
@@ -33,3 +36,17 @@ print("Последний столбец:", temperatures[:, -1])
 print("Первые две строки без первого столбца:\n", temperatures[:2, 1:])
 center_fragment = temperatures[:2, 1:3]
 print("Центральный фрагмент 2x2:\n", center_fragment)
+
+# Задание 4
+print("\n=== Задание 4 ===")
+matrix = np.arange(1, 26).reshape(5, 5)
+first_three_rows = matrix[:3]
+print("Первые три строки:\n", first_three_rows, "\nshape:", first_three_rows.shape)
+last_two_rows = matrix[-2:]
+print("Последние две строки:\n", last_two_rows, "\nshape:", last_two_rows.shape)
+first_two_cols = matrix[:, :2]
+print("Первые два столбца:\n", first_two_cols, "\nshape:", first_two_cols.shape)
+mid_fragment = matrix[1:4, 2:5]
+print("Фрагмент строк 1–3 и столбцов 2–4:\n", mid_fragment, "\nshape:", mid_fragment.shape)
+bottom_right = matrix[-2:, -2:]
+print("Угловой блок 2x2 в правом нижнем углу:\n", bottom_right, "\nshape:", bottom_right.shape)
