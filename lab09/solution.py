@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def make_hours() -> list[int]:
     arr = np.arange(0, 22, 3)
     return arr.tolist()
@@ -14,3 +13,9 @@ def vector_report(values: list[float]) -> dict:
         "every_second": arr[::2].tolist(),
         "reversed": arr[::-1].tolist(),
     }
+
+def change_vector(values: list[float]) -> list[float]:
+    arr = np.asarray(values).copy()
+    arr[2:5] = 99
+    arr[::2] = -1
+    return arr.tolist()
