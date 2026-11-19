@@ -50,3 +50,26 @@ mid_fragment = matrix[1:4, 2:5]
 print("Фрагмент строк 1–3 и столбцов 2–4:\n", mid_fragment, "\nshape:", mid_fragment.shape)
 bottom_right = matrix[-2:, -2:]
 print("Угловой блок 2x2 в правом нижнем углу:\n", bottom_right, "\nshape:", bottom_right.shape)
+
+#Задание 5
+print("\n=== Задание 5 ===")
+vector = np.array([10, 20, 30, 40, 50])
+vector[1:4] = 0
+small_matrix = np.arange(1, 10).reshape(3, 3)
+small_matrix[0, :] = -1
+small_matrix[1:, 1:] = 9
+changed_hours = hours.copy()
+changed_hours[2:5] = 99
+changed_hours[::2] = -1
+
+# Метод .copy() нужен для создания независимой копии массива в памяти.
+# Обычное присваивание или срез создают лишь представление (view) исходных данных,
+# поэтому без .copy() изменения в changed_hours перезаписали бы исходный массив hours.
+print("changed_hours:", changed_hours)
+print("Исходный hours:", hours)
+changed_matrix = matrix.copy()
+changed_matrix[1, :] = 0
+changed_matrix[:, -1] = -1
+changed_matrix[1:4, 1:4] = 100
+print("Итоговая матрица:\n", changed_matrix)
+print("Исходная матрица:\n", matrix)
